@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar Power Prediction</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Solar Power Generation Prediction</h2>
+      <form id="prediction-form">
+        <label for="input1">Enter Feature 1:</label>
+        <input type="text" id="input1" name="feature1" required />
+
+        <label for="input2">Enter Feature 2:</label>
+        <input type="text" id="input2" name="feature2" required />
+
+        <label for="input3">Enter Feature 3:</label>
+        <input type="text" id="input3" name="feature3" required />
+
+        <button type="submit">Predict</button>
+      </form>
+      <h3 id="result"></h3>
+    </div>
+
+    <script>
+      document
+        .getElementById("predictBtn")
+        .addEventListener("click", function () {
+          // Get values from input fields
+          let feature1 = document.getElementById("feature1").value;
+          let feature2 = document.getElementById("feature2").value;
+          let feature3 = document.getElementById("feature3").value;
+
+          // Send data to Flask server
+          fetch("http://127.0.0.1:5000/predict", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              feature1: parseFloat(feature1),
+              feature2: parseFloat(feature2),
+              feature3: parseFloat(feature3),
+            }),
+          })
+            .then((response) => response.json()) // Convert response to JSON
+            .then((data) => {
+              // Show the prediction result
+              document.getElementById("output").innerText =
+                "Predicted Power Output: " + data.prediction;
+            })
+            .catch((error) => console.error("Error:", error));
+        });
+    </script>
+  </body>
+</html>
