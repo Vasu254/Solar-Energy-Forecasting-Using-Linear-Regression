@@ -1,1 +1,0 @@
-# Solar-Energy-Forecasting-Using-Linear-Regression
